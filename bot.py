@@ -1,4 +1,7 @@
 import discord
+import asyncio
+from discord.ext import commands
+from discord.ext.commands import bot
 
 client = discord.Client()
 
@@ -11,6 +14,8 @@ token = read_token()
 
 serverID = 866348685990166588
 
+bot = commands.Bot(command_prefix='/')
+
 @client.event
 async def on_member_join(member):
     for channel in member.guild.channels:
@@ -20,6 +25,14 @@ async def on_member_join(member):
 @client.event
 async def on_ready():
     print('{0.user} is live!'.format(client))
+
+@bot.command(pass_context = True)
+async def savemsg(author):
+    msg = client.get_channel(866348939270553600)
+    await msg.send(' : %s saved this.' %author)
+    # print ("{}".format(author))
+    # print("Saved")
+    # await channel.send("Saved!")
 
 @client.event
 async def on_message(message):
@@ -33,6 +46,12 @@ async def on_message(message):
         elif message.content == "!users":
             await message.channel.send(f"""# of Members: {id.member_count}""")
         elif message.content.find("/simpan") != -1:
-            await message.channel.send("SAVED!")
+            msg = client.get_channel(866348939270553600)
+            by = '<@242852663392206851>'
+            author = '<@{}>'.format(message.author.id)
+            await message.channel.send("SAVED! by <@{}>".format(message.author))
+            # await message.channel.send(' : %s is the best' % who)
+            # await msg.send('Hi')
+            await savemsg(author)
 
 client.run(token)
