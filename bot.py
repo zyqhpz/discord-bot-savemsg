@@ -5,8 +5,6 @@ from discord.ext.commands import bot, context
 
 client = discord.Client()
 
-# getMsg = discord.Message()
-
 def read_token():
     with open("token.txt", "r") as f:
         lines = f.readlines()
